@@ -162,9 +162,8 @@ export class MiraiApiHttp {
 
     if (data.code === 0) {
       this.sessionKey = data.session;
-      if (this.axios.defaults.headers) {
+      if (this.axios.defaults.headers)
         (this.axios.defaults.headers.common as any).sessionKey = this.sessionKey;
-      }
     }
     return data;
   }
@@ -459,12 +458,12 @@ export class MiraiApiHttp {
   /**
    * 撤回消息
    * 使用此方法撤回指定消息。对于bot发送的消息，有2分钟时间限制。对于撤回群聊中群员的消息，需要有相应权限
-   * @param target 需要撤回的消息的messageId
+   * @param messageId 需要撤回的消息的messageId
+   * @param target 好友id或群id
    */
-  async recall(target: Api.Params.Recall['target']) {
-    let messageId = target;
-    if (typeof target !== 'number' && target.messageChain[0].id)
-      messageId = target.messageChain[0].id;
+  async recall(messageId: Api.Params.Recall['target'], target: number) {
+    if (typeof messageId !== 'number' && messageId.messageChain[0].id)
+      messageId = messageId.messageChain[0].id;
 
     const { data } = await this.axios.post<
       Api.Params.Recall,
@@ -472,6 +471,7 @@ export class MiraiApiHttp {
     >('/recall', {
       sessionKey: this.sessionKey,
       messageId,
+      target,
     });
     return data;
   }
