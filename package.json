@@ -1,6 +1,6 @@
 {
   "name": "@hengkx/mirai-ts",
-  "version": "2.4.3",
+  "version": "2.5.0",
   "packageManager": "pnpm@7.12.2",
   "description": "Mirai TypeScript SDK",
   "author": {
